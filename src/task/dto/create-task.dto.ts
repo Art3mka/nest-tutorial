@@ -1,4 +1,5 @@
 import { IsArray, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Length, IsEnum, Matches } from "class-validator";
+import { StartsWith } from "../decorators/starts-with.decorator";
 
 export enum TaskTag {
     WORK = 'work',
@@ -9,6 +10,7 @@ export enum TaskTag {
 export class CreateTaskDto {
     @IsString({message: 'Title must be a string'})
     @IsNotEmpty({message: 'Title is required'})
+    @StartsWith('Task', {message: 'Title must start with "Task"'})
     @Length(3, 20, {message: 'Title must be between 3 and 20 characters'})
     title: string;
 
