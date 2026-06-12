@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+    postgres:
+        image: postgres:latest
+        restart: always
+        ports:
+            - '5433:5432'
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        volumes:
+            - postgres_data:/var/lib/postgresql
+        networks:
+            - nest-tutorial-network
+
+volumes:
+    postgres_data:
+
+networks:
+    nest-tutorial-network:
