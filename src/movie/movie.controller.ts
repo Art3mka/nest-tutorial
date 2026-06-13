@@ -1,14 +1,34 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { MovieService } from './movie.service';
+import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 
 @Controller('movies')
 export class MovieController {
+    constructor(private readonly movieService: MovieService) {}
+
     @Get()
-    findAll(@Query() query: any) {
-        return `Фильмы с параметрами ${JSON.stringify(query)}`;
+    findAll() {
+        return this.movieService.findAll();
+    }
+
+    @Get(':id')
+    findById(@Param('id') id: number) {
+        return this.movieService.findById(+id);
     }
 
     @Post()
-    create(@Body() body: { title: string; genre: string }) {
-        return `Фильмы с параметрами ${JSON.stringify(body)} создан`;
+    create(@Body() createMovieDto: CreateMovieDto) {
+        return this.movieService.create(createMovieDto);
+    }
+
+    @Put(':id')
+    update(@Param('id') id: number, @Body() updateMovieDto: UpdateMovieDto) {
+        return this.movieService.update(+id, updateMovieDto);
+    }
+
+    @Delete(':id')
+    delete(@Param('id') id: number) {
+        return this.movieService.delete(+id);
     }
 }
