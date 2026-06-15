@@ -21,7 +21,7 @@ export class CreateMovieDto {
     @IsArray()
     @IsNotEmpty()
     @IsInt({ each: true })
-    actorIds: number[];
+    actorIds: string[];
 
     @IsString()
     posterUrl: string;

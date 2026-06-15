@@ -18,7 +18,7 @@ export class CreateReviewDto {
     @Max(10)
     rating: number;
 
-    @IsInt()
+    @IsString()
     @IsNotEmpty()
-    movieId: number;
+    movieId: string;
 }
