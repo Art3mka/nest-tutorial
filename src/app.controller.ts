@@ -1,6 +1,14 @@
-import { Controller, Get, Body, Post, UsePipes } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Body,
+    Post,
+    UsePipes,
+    UseGuards,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { StringToLowercasePipe } from './common/pipes/string-to-lowercase.pipe';
+import { AuthGuard } from './common/guards/auth.guard';
 
 @Controller()
 export class AppController {
@@ -15,5 +23,15 @@ export class AppController {
     @Post()
     create(@Body('title') title: string) {
         return `Movie ${title}`;
+    }
+
+    @UseGuards(AuthGuard)
+    @Get('@me')
+    getProfile() {
+        return {
+            id: 1,
+            username: 'testuser',
+            email: 'testuser@example.com',
+        };
     }
 }
