@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ReviewModule } from './review/review.module';
 import { ActorModule } from './actor/actor.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { LoggerMiddleware } from './common/midllewares/logger.middleware';
+import { NestModule, MiddlewareConsumer } from '@nestjs/common';
 
 @Module({
     imports: [
@@ -20,4 +22,8 @@ import { PrismaModule } from './prisma/prisma.module';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(LoggerMiddleware).forRoutes('*');
+    }
+}
