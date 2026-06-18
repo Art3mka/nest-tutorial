@@ -119,6 +119,20 @@ export class AuthService {
         return true;
     }
 
+    async validateUser(userId: string) {
+        const user = await this.prismaService.user.findUnique({
+            where: {
+                id: userId,
+            },
+        });
+
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        return user;
+    }
+
     private auth(res: Response, userId: string) {
         const { accessToken, refreshToken } = this.generateTokens(userId);
 

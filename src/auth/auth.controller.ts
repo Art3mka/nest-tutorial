@@ -4,8 +4,10 @@ import {
     HttpCode,
     HttpStatus,
     Post,
+    Get,
     Req,
     Res,
+    UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterRequest } from './dto/register.dto';
@@ -20,6 +22,9 @@ import {
     ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { AuthResponse } from './dto/auth.dto';
+import { Authorization } from './decorators/authorization.decorator';
+import { Authorized } from './decorators/authorized.decorator';
+import type { User } from 'src/generated/prisma/client';
 
 @Controller('auth')
 export class AuthController {
@@ -99,5 +104,29 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     async logout(@Res({ passthrough: true }) res: Response) {
         return this.authService.logout(res);
+    }
+
+    @ApiOperation({
+        summary: 'Get the current user',
+        description: 'Get the current user with the given access token',
+    })
+    @ApiOkResponse({
+        schema: {
+            type: 'object',
+            properties: {
+                id: { type: 'string' },
+                email: { type: 'string' },
+                name: { type: 'string' },
+            },
+        },
+    })
+    @ApiUnauthorizedResponse({
+        description: 'The access token is invalid',
+    })
+    @Authorization()
+    @Get('me')
+    @HttpCode(HttpStatus.OK)
+    async me(@Authorized() user: User) {
+        return user;
     }
 }
