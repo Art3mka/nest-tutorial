@@ -5,26 +5,54 @@ registerEnumType(UserRole, {
     name: 'UserRole',
 });
 
-@ObjectType()
+@ObjectType({
+    description: 'User model',
+})
 export class UserModel implements User {
-    @Field(() => ID)
+    @Field(() => ID, {
+        description: 'User ID',
+    })
     id: string;
 
-    @Field(() => String)
+    @Field(() => String, {
+        description: 'User name',
+        defaultValue: 'Artem',
+        nullable: false,
+    })
     name: string;
 
-    @Field(() => String)
+    @Field(() => String, {
+        description: 'User email',
+        defaultValue: 'artem@example.com',
+        nullable: false,
+    })
     email: string;
 
-    @Field(() => String)
+    @Field(() => String, {
+        description: 'User password',
+        defaultValue: 'password',
+        nullable: false,
+    })
     password: string;
 
-    @Field(() => UserRole)
+    @Field(() => UserRole, {
+        description: 'User role',
+        defaultValue: UserRole.USER,
+        nullable: false,
+    })
     role: UserRole;
 
-    @Field(() => Date)
+    @Field(() => Date, {
+        description: 'User created at',
+        defaultValue: new Date(),
+        nullable: false,
+    })
     createdAt: Date;
 
-    @Field(() => Date)
+    @Field(() => Date, {
+        description: 'User updated at',
+        defaultValue: new Date(),
+        nullable: false,
+    })
     updatedAt: Date;
 }

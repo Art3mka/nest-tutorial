@@ -24,7 +24,10 @@ type Mutation {
 }
 
 type Query {
-  findAll: [UserModel!]!
+  """Find all users"""
+  findAllUsers: [UserModel!]!
+
+  """Get current user"""
   getMe: UserModel!
 }
 
@@ -34,13 +37,27 @@ input RegisterInput {
   password: String!
 }
 
+"""User model"""
 type UserModel {
+  """User created at"""
   createdAt: DateTime!
+
+  """User email"""
   email: String!
+
+  """User ID"""
   id: ID!
+
+  """User name"""
   name: String!
+
+  """User password"""
   password: String!
+
+  """User role"""
   role: UserRole!
+
+  """User updated at"""
   updatedAt: DateTime!
 }
 

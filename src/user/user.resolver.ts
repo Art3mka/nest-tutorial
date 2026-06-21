@@ -10,13 +10,19 @@ export class UserResolver {
     constructor(private readonly userService: UserService) {}
 
     @Authorization()
-    @Query(() => UserModel)
+    @Query(() => UserModel, {
+        name: 'getMe',
+        description: 'Get current user',
+    })
     getMe(@Authorized() user: User) {
         return user;
     }
 
     @Authorization(UserRole.ADMIN)
-    @Query(() => [UserModel])
+    @Query(() => [UserModel], {
+        name: 'findAllUsers',
+        description: 'Find all users',
+    })
     async findAll() {
         return await this.userService.findAll();
     }
